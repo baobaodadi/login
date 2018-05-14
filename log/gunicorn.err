@@ -28,3 +28,6 @@
 [2018-05-14 17:38:25 +0800] [19624] [INFO] Worker exiting (pid: 19624)
 [2018-05-14 17:38:25 +0800] [20053] [INFO] Booting worker with pid: 20053
 [2018-05-14 17:38:25 +0800] [20054] [INFO] Booting worker with pid: 20054
+[2018-05-14 17:45:33 +0800] [19616] [CRITICAL] WORKER TIMEOUT (pid:20053)
+[2018-05-14 17:45:33 +0800] [20053] [INFO] Worker exiting (pid: 20053)
+[2018-05-14 17:45:33 +0800] [20391] [INFO] Booting worker with pid: 20391
