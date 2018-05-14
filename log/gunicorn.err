@@ -19,3 +19,12 @@
 [2018-05-14 17:31:04 +0800] [19622] [INFO] Booting worker with pid: 19622
 [2018-05-14 17:31:04 +0800] [19623] [INFO] Booting worker with pid: 19623
 [2018-05-14 17:31:04 +0800] [19624] [INFO] Booting worker with pid: 19624
+[2018-05-14 17:31:40 +0800] [19616] [CRITICAL] WORKER TIMEOUT (pid:19623)
+[2018-05-14 17:31:40 +0800] [19623] [INFO] Worker exiting (pid: 19623)
+[2018-05-14 17:31:40 +0800] [19676] [INFO] Booting worker with pid: 19676
+[2018-05-14 17:38:25 +0800] [19616] [CRITICAL] WORKER TIMEOUT (pid:19624)
+[2018-05-14 17:38:25 +0800] [19616] [CRITICAL] WORKER TIMEOUT (pid:19619)
+[2018-05-14 17:38:25 +0800] [19619] [INFO] Worker exiting (pid: 19619)
+[2018-05-14 17:38:25 +0800] [19624] [INFO] Worker exiting (pid: 19624)
+[2018-05-14 17:38:25 +0800] [20053] [INFO] Booting worker with pid: 20053
+[2018-05-14 17:38:25 +0800] [20054] [INFO] Booting worker with pid: 20054
