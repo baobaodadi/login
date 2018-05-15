@@ -20,9 +20,9 @@ class User(db.Model):
         self.phone = phone
 
 
-inset=User(username='admin', email='new1234', phone='13812345678')
-db.session.add(inset)
-db.session.commit()
+# inset=User(username='admin', email='new1234', phone='13812345678')
+# db.session.add(inset)
+# db.session.commit()
 
 # select_=User.query.filter_by(username='admin').first()
 # print(select_.email)
