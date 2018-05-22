@@ -10,7 +10,8 @@ db = SQLAlchemy(app)
 
 class Article(db.Model):
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
-    title = db.Column(db.String(80),primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80))
     content = db.Column(db.Text)
 
     def __init__(self, title,content):

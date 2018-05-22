@@ -23,7 +23,8 @@ class User(db.Model):
         self.phone = phone
 
 class Article(db.Model):
-    title = db.Column(db.String(80),primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80))
     content = db.Column(db.Text)
 
     def __init__(self, title,content):
@@ -62,11 +63,29 @@ def article():
             return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
     # select_ = User.query.filter_by(name=name).first()
     elif request.method == 'GET':
-         title = request.args.get('title')
-         content = Article.query.filter_by(title=title).first()
+         id = request.args.get('id')
+         content = Article.query.filter_by(id=id).first()
+
 
          if content:
-             return jsonify({"code": 0, "message": "OK", "data": {"title":title,"content": content.content}})
+             return jsonify({"code": 0, "message": "OK", "data": {"title":content.title,"content": content.content}})
+         else:
+             return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
+
+
+@app.route('/article/list', methods=['GET'])
+def list():
+    if request.method == 'GET':
+         count =  Article.query.all()
+         list=[]
+         for data in count:
+             articleList = dict()
+             articleList[data.id]=data.title
+             list.append(articleList)
+
+         print list
+         if count:
+             return jsonify({"code": 0, "message": "OK", "data": {"list": list}})
          else:
              return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
 
