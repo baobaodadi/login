@@ -3,13 +3,13 @@ import MySQLdb
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:new123@localhost/mysite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:new123@localhost/mysite?charset=utf8mb4'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
 
 class Article(db.Model):
-    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    # __table_args__ = {'mysql_collate': 'utf8mb4_unicode_ci'}
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
     content = db.Column(db.Text)
