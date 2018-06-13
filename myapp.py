@@ -4,6 +4,7 @@ from flask_cors import *
 import MySQLdb
 from flask_sqlalchemy import SQLAlchemy
 import json
+import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:new123@localhost/mysite?charset=utf8mb4'
@@ -32,7 +33,7 @@ class Article(db.Model):
         self.content = content
 
 
-CORS(app, supports_credentials=True)
+# CORS(app, supports_credentials=True)
 
 @app.route('/auth/login', methods=['GET', 'POST'])
 def login():
@@ -40,13 +41,27 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-    select_=User.query.filter_by(username=username).first()
 
-    if password == select_.email:
-            print(password)
-            return jsonify({"code":0,"message":"OK","data":{"msg":1}})
+
+        select_=User.query.filter_by(username=username).first()
+
+        if password == select_.email:
+                # session['username'] = username
+                response = make_response(jsonify({"code":0,"message":"OK","data":{"msg":1}}))
+                expire_date = datetime.datetime.now()
+                expire_date = expire_date + datetime.timedelta(days=90)
+                response.set_cookie('framework', 'flask',expires=expire_date)
+                return response
+        else:
+                response = make_response(jsonify({"code":1, "message": "error","data": {"msg": 0}}))
+                return response
     else:
-            return jsonify({"code":1, "message": "error", "data": {"msg": 0}})
+        cookieName=request.cookies.get('framework')
+        print cookieName
+        if cookieName:
+            return make_response(jsonify({"code": 0, "message": "OK", "data": {"msg": 1}}))
+        else:
+            return make_response(jsonify({"code": 1, "message": "error", "data": {"msg": 0}}))
 
 
 @app.route('/user/content', methods=['GET', 'POST'])
@@ -58,19 +73,23 @@ def article():
             inset = Article(title=title, content=content)
             db.session.add(inset)
             db.session.commit()
-            return jsonify({"code": 0, "message": "OK", "data": {"msg": 1}})
+            response = make_response(jsonify({"code": 0, "message": "OK", "data": {"msg": 1}}))
         else:
-            return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
+            response = make_response(jsonify({"code": 1, "message": "error", "data": {"msg": 0}}))
     # select_ = User.query.filter_by(name=name).first()
     elif request.method == 'GET':
          id = request.args.get('id')
          content = Article.query.filter_by(id=id).first()
 
-
          if content:
-             return jsonify({"code": 0, "message": "OK", "data": {"title":content.title,"content": content.content}})
+             response = make_response(jsonify({"code": 0, "message": "OK", "data": {"title":content.title,"content": content.content}}))
          else:
-             return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
+             response = make_response(jsonify({"code": 1, "message": "error", "data": {"msg": 0}}))
+
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST'
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return response
 
 
 @app.route('/article/list', methods=['GET'])
@@ -83,13 +102,16 @@ def list():
              articleList[data.id]=data.title
              list.append(articleList)
 
-         print list
          if count:
-             return jsonify({"code": 0, "message": "OK", "data": {"list": list}})
+             response = make_response(jsonify({"code": 0, "message": "OK", "data": {"list": list}}))
          else:
-             return jsonify({"code": 1, "message": "error", "data": {"msg": 0}})
+             response = make_response(jsonify({"code": 1, "message": "error", "data": {"msg": 0}}))
 
-
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST'
+    response.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return response
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)
+
